@@ -11,24 +11,17 @@ module Bury
   #   {}.bury([:a,:b,:c], 1) # => {a:{b:{c: 1}}}
   #   {a: {d: 2}}.bury([:a,:b,:c], 1) # => {a:{b:{c:1},d:2}}
   def bury(keys, value)
-    hash = create_hash_recursively(keys, value)
-    merge_for_burying!(keys, hash)
-    self
-  end
-
-  protected
-
-  # @param [Array<String|Symbol>] keys
-  # @param [Hash] hash
-  # @param [Integer] index
-  # @return [Void]
-  def merge_for_burying!(keys, hash, index = 0)
-    key = keys[index]
-    if self.has_key?(key) && self[key].is_a?(Hash)
-      self[key].merge_for_burying!(keys, hash, index + 1)
-    else
-      merge!(index.zero? ? hash : hash.dig(*keys.take(index)))
+    merge_for_burying = lambda do |hash, keys, target_hash, index = 0|
+      key = keys[index]
+      if hash.has_key?(key) && hash[key].is_a?(Hash)
+        merge_for_burying.call(hash[key], keys, target_hash, index + 1)
+      else
+        hash.merge!(index.zero? ? target_hash : target_hash.dig(*keys.take(index)))
+      end
     end
+    merge_for_burying.call(self, keys, create_hash_recursively(keys, value))
+
+    self
   end
 
   private
