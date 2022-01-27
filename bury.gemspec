@@ -6,8 +6,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Toyoaki Oko"]
   spec.email         = ["chariderpato@gmail.com"]
 
-  spec.summary       = %q{Bury defines Hash#bury method.}
-  spec.description   = %q{Bury defines Hash#bury method.}
+  spec.summary       = %q{Bury is a library for extending the Hash class. Hash#bury method is the opposite of the Hash#dig method.}
+  spec.description   = %q{Bury is a library for extending the Hash class. Hash#bury method is the opposite of the Hash#dig method.}
   spec.homepage      = "https://github.com/patorash/bury"
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
