@@ -5,7 +5,6 @@ module Bury
   # Merge Hash according to the array of keys passed to Hash
   # @param [Array<String|Symbol>] keys
   # @param [Object] value
-  # @option [Integer] index
   # @return [Hash]
   # @example example
   #   {}.bury([:a,:b,:c], 1) # => {a:{b:{c: 1}}}
