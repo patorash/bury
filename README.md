@@ -1,5 +1,7 @@
 # Bury
 
+[![Test](https://github.com/patorash/bury/actions/workflows/test.yml/badge.svg)](https://github.com/patorash/bury/actions/workflows/test.yml)
+
 Bury is a library for extending the Hash class. `Hash#bury` method is the opposite of the `Hash#dig` method.
 
 ## Installation
