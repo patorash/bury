@@ -7,20 +7,17 @@ module Bury
   # @param [Object] value
   # @return [Hash]
   # @example example
-  #   {}.bury([:a,:b,:c], 1) # => {a:{b:{c: 1}}}
-  #   {a: {d: 2}}.bury([:a,:b,:c], 1) # => {a:{b:{c:1},d:2}}
+  #   hash = {a: {d: 2}}
+  #   hash.bury([:a,:b,:c], 1) # => {a:{b:{c:1},d:2}}
+  #   hash # => {a: {d: 2}}
   def bury(keys, value)
     merge_proc = lambda do |_key, old_value, new_value|
-      [old_value, new_value].all? { |v| v.is_a? Hash } ? old_value.merge!(new_value, &merge_proc) : new_value
+      [old_value, new_value].all? { |v| v.is_a? Hash } ? old_value.merge(new_value, &merge_proc) : new_value
     end
-    create_hash_recursively = lambda do |_keys, _value, index = 0|
-      if _keys.size - 1 == index
-        { _keys[index] => _value }
-      else
-        { _keys[index] => create_hash_recursively.call(_keys, _value, index + 1)}
-      end
+    create_hash_recursively = lambda do |i = 0|
+      { keys[i] => keys.size - 1 == i ? value : create_hash_recursively.call(i + 1) }
     end
-    merge!(create_hash_recursively.call(keys, value), &merge_proc)
+    merge(create_hash_recursively.call, &merge_proc)
   end
 
 end
