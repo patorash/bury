@@ -10,15 +10,9 @@ module Bury
   #   {}.bury([:a,:b,:c], 1) # => {a:{b:{c: 1}}}
   #   {a: {d: 2}}.bury([:a,:b,:c], 1) # => {a:{b:{c:1},d:2}}
   def bury(keys, value)
-    merge_for_burying = lambda do |hash, _keys, target_hash, index = 0|
-      key = _keys[index]
-      if hash.has_key?(key) && hash[key].is_a?(Hash)
-        merge_for_burying.call(hash[key], _keys, target_hash, index + 1)
-      else
-        hash.merge!(index.zero? ? target_hash : target_hash.dig(*_keys.take(index)))
-      end
+    merge_proc = lambda do |_key, old_value, new_value|
+      [old_value, new_value].all? { |v| v.is_a? Hash } ? old_value.merge!(new_value, &merge_proc) : new_value
     end
-
     create_hash_recursively = lambda do |_keys, _value, index = 0|
       if _keys.size - 1 == index
         { _keys[index] => _value }
@@ -26,10 +20,7 @@ module Bury
         { _keys[index] => create_hash_recursively.call(_keys, _value, index + 1)}
       end
     end
-
-    merge_for_burying.call(self, keys, create_hash_recursively.call(keys, value))
-
-    self
+    merge!(create_hash_recursively.call(keys, value), &merge_proc)
   end
 
 end
