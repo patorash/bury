@@ -20,6 +20,18 @@ module Bury
     merge(create_hash_recursively.call, &merge_proc)
   end
 
+  # Destructively merges Hashes according to the array of keys passed to it
+  # @param [Array<String|Symbol>] keys
+  # @param [Object] value
+  # @return [Hash]
+  # @example example
+  #   hash = {a: {d: 2}}
+  #   hash.bury!([:a,:b,:c], 1) # => {a:{b:{c:1},d:2}}
+  #   hash # => {a:{b:{c:1},d:2}}
+  def bury!(keys, value)
+    replace(bury(keys, value))
+  end
+
 end
 
 Hash.include(Bury)
