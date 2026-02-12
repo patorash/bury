@@ -3,14 +3,14 @@ require_relative 'lib/bury/version'
 Gem::Specification.new do |spec|
   spec.name          = "bury"
   spec.version       = Bury::VERSION
-  spec.authors       = ["Toyoaki Oko"]
-  spec.email         = ["chariderpato@gmail.com"]
+  spec.authors       = ["Toyoaki Oko", "tokai3594"]
+  spec.email         = ["chariderpato@gmail.com", "t-shinohara@rhizome-e.com"]
 
   spec.summary       = %q{Bury is a library for extending the Hash class. Hash#bury method is the opposite of the Hash#dig method.}
   spec.description   = %q{Bury is a library for extending the Hash class. Hash#bury method is the opposite of the Hash#dig method.}
   spec.homepage      = "https://github.com/patorash/bury"
   spec.license       = "MIT"
-  spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
+  spec.required_ruby_version = Gem::Requirement.new(">= 2.7.0")
 
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = spec.homepage
@@ -25,6 +25,8 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency 'rake', '~> 12.0'
-  spec.add_development_dependency 'minitest', '~> 5.0'
+  spec.add_development_dependency 'rake', '~> 13.0'
+  spec.add_development_dependency 'minitest', '~> 5.26'
+  spec.add_development_dependency 'mutex_m', '~> 0.1'
+  spec.add_development_dependency 'ostruct', '~> 0.1'
 end
