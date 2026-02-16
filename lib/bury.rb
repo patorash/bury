@@ -14,10 +14,8 @@ module Bury
     merge_proc = lambda do |_key, old_value, new_value|
       [old_value, new_value].all? { |v| v.is_a? Hash } ? old_value.merge(new_value, &merge_proc) : new_value
     end
-    create_hash_recursively = lambda do |i = 0|
-      { keys[i] => keys.size - 1 == i ? value : create_hash_recursively.call(i + 1) }
-    end
-    merge(create_hash_recursively.call, &merge_proc)
+    hash = keys.reverse.reduce(value) { |m, k| {k => m} }
+    merge(hash, &merge_proc)
   end
 
   # Destructively merges Hashes according to the array of keys passed to it
